@@ -1,0 +1,12 @@
+query Characters {
+  characters {
+    info {
+      count
+      pages
+      next
+    }
+    results {
+      name
+    }
+  }
+}

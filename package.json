@@ -7,7 +7,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "codegen": "apollo client:codegen types --target=typescript --globalTypesFile=api/__generated__/graphql-schema.ts"
   },
   "keywords": [],
   "author": "",
@@ -21,9 +22,11 @@
     "react-query": "^3.21.0"
   },
   "devDependencies": {
+    "@graphql-tools/webpack-loader": "^6.5.1",
     "@types/node": "^16.7.1",
     "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9",
+    "apollo": "^2.33.6",
     "typescript": "^4.3.5"
   }
 }
