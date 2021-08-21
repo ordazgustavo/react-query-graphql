@@ -47,3 +47,7 @@ export interface Characters {
    */
   characters: Characters_characters | null;
 }
+
+export interface CharactersVariables {
+  page?: number | null;
+}
