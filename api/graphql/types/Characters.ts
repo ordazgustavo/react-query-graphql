@@ -26,6 +26,10 @@ export interface Characters_characters_info {
 export interface Characters_characters_results {
   __typename: "Character";
   /**
+   * The id of the character.
+   */
+  id: string | null;
+  /**
    * The name of the character.
    */
   name: string | null;

@@ -1,33 +1,34 @@
-import { request } from 'graphql-request';
-import { useQuery } from 'react-query';
+import { GetStaticProps } from 'next';
+import { QueryClient, useQuery } from 'react-query';
+import { dehydrate } from 'react-query/hydration';
 
-import CHARACTERS_QUERY from '../api/graphql/Characters.graphql';
-import { Characters } from '../api/graphql/types/Characters';
+import getCharacters from '~/api/queries/getCharacters';
 
-const endpoint = process.env.NEXT_PUBLIC_API_URL!;
+function Index() {
+  const { data } = useQuery('characters', getCharacters);
 
-function useCharacters() {
-  return useQuery('characters', async () => {
-    const { characters } = await request<Characters>(
-      endpoint,
-      CHARACTERS_QUERY,
-    );
-
-    return characters?.results;
-  });
-}
-
-export default function Index() {
-  const { data } = useCharacters();
-  console.log(data);
   return (
     <div>
       Rick and Morty
       <ul>
         {data?.map(char => (
-          <li>{char?.name}</li>
+          <li key={char.id}>{char?.name}</li>
         ))}
       </ul>
     </div>
   );
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery('characters', getCharacters);
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
+
+export default Index;
