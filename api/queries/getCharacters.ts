@@ -11,6 +11,10 @@ import { GRAPHQL_ENDPOINT } from '~/api/constants';
 
 export const CHARACTERS_KEY = 'characters';
 
+/**
+ * Base function that handles API requests
+ * Can also handle data manipulation
+ */
 const getCharacters = async (variables: CharactersVariables) => {
   const { characters } = await request<Characters, CharactersVariables>(
     GRAPHQL_ENDPOINT,
@@ -23,6 +27,10 @@ const getCharacters = async (variables: CharactersVariables) => {
 
 const INITIAL_PAGE = 1;
 
+/**
+ * A React Hook to us the data within a component
+ * Also handles pagination
+ */
 export function useCharacters() {
   const [page, setPage] = useState(INITIAL_PAGE);
   const queryResult = useQuery(
@@ -36,6 +44,9 @@ export function useCharacters() {
   return { ...queryResult, hasMore, page, setPage };
 }
 
+/**
+ * A function to prefetch data in SSG or SSR.
+ */
 export function prefetchCharacters(queryClient: QueryClient) {
   return queryClient.prefetchQuery([CHARACTERS_KEY, INITIAL_PAGE], () =>
     getCharacters({ page: INITIAL_PAGE }),
